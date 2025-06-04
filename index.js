@@ -7,12 +7,20 @@ const API = `${BASE}/${COHORT}`;
 
 const state = {
   puppies: [],
+  selectedPuppy: `none`,
 };
+// creating elements
 
 const app = document.getElementById(`app`);
 
 const puppyList = document.createElement(`ul`);
 app.appendChild(puppyList);
+
+const puppyDetails = document.createElement(`div`);
+puppyDetails.id = "puppy-details";
+app.appendChild(puppyDetails);
+
+// main api async function
 
 const getPuppyPlayers = async () => {
   const response = await fetch(API);
@@ -21,6 +29,8 @@ const getPuppyPlayers = async () => {
 
   renderPuppies();
 };
+
+// create element functions
 
 const renderPuppies = () => {
   puppyList.innerHTML = ``;
@@ -36,9 +46,39 @@ const renderPuppies = () => {
     img.src = puppy.imageUrl;
     img.alt = puppy.name;
 
+    puppyLi.addEventListener("click", () => {
+      state.selectedPuppy = puppy;
+      renderPuppyDetails();
+    });
+
+    puppyList.appendChild(puppyLi);
     puppyLi.appendChild(name);
     puppyLi.appendChild(img);
   });
+
+  const renderPuppyDetails = () => {
+    const puppy = state.selectedPuppy;
+
+    if (puppy === "none") {
+      return;
+    }
+    // inner html added to user page
+
+    puppyDetails.className = "selected-puppy";
+    puppyDetails.innerHTML = `
+    <h2>${puppy.name}</h2>
+
+    <img src="${puppy.imageUrl}" alt="${puppy.name}" />
+
+    <p><strong>ID:</strong> ${puppy.id}</p>
+
+    <p><strong>Breed:</strong> ${puppy.breed}</p>
+
+    <p><strong>Status:</strong> ${puppy.status}</p>
+
+    <p><strong>Team:</strong> ${puppy.team ? puppy.team.name : "Unassigned"}</p>
+    `;
+  };
 };
 
 getPuppyPlayers();
