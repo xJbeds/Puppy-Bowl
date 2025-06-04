@@ -7,13 +7,11 @@ const API = `${BASE}/${COHORT}`;
 
 const state = {
   puppies: [],
-
 };
 
 const app = document.getElementById(`app`);
 
 const puppyList = document.createElement(`ul`);
-puppyList.innerHTML = `puppy-list`;
 app.appendChild(puppyList);
 
 const getPuppyPlayers = async () => {
@@ -28,12 +26,25 @@ const renderPuppies = () => {
   puppyList.innerHTML = ``;
 
   state.puppies.forEach((puppy) => {
-    const puppyUl = document.createElement(`ul`);
-    puppyUl.textContent = puppy.name;
-    puppyList.appendChild(puppyUl);
+    const puppyLi = document.createElement(`li`);
+    puppyList.appendChild(puppyLi);
+
+    const name = document.createElement(`h3`);
+    name.textContent = puppy.name;
+
+    const img = document.createElement(`img`);
+    img.src = puppy.imageUrl;
+    img.alt = puppy.name;
+
+    puppyLi.appendChild(name);
+    puppyLi.appendChild(img);
   });
 };
 
 getPuppyPlayers();
 
-
+// add an event listener when the user clicks on each li
+// make a new function to renderPuppyDetails
+// create a new section with inner html
+// create new elements per each information given
+// appened details to app or li
